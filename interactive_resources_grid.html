@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Resources Grid</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+
+        /* Modern CSS technique for smooth height animation from 0 to auto */
+        .expandable-wrapper {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .group:hover .expandable-wrapper,
+        .card-active .expandable-wrapper {
+            grid-template-rows: 1fr;
+        }
+
+        .expandable-inner {
+            overflow: hidden;
+        }
+
+        /* Fade and slide up animation for the content itself */
+        .expandable-inner > div {
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            transition-delay: 0s;
+            visibility: hidden;
+        }
+
+        .group:hover .expandable-inner > div,
+        .card-active .expandable-inner > div {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.15s;
+            visibility: visible;
+        }
+
+        /* Custom scrollbar for very long content on small screens (like Create) */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800 p-4 md:p-8 flex flex-col items-center justify-center bg-gradient-to-br from-slate-50 to-slate-200">
+
+    <div class="max-w-6xl w-full mx-auto">
+        <header class="text-center mb-12">
+            <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-slate-900 mb-4">Discover Our Resources</h1>
+            <p class="text-slate-600 text-lg md:text-xl max-w-2xl mx-auto">Hover over or tap a section to explore what we offer.</p>
+        </header>
+
+        <!-- 
+          Using items-start prevents cards in the same row from stretching 
+          to match the height of the expanded card, keeping the layout neat.
+        -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-start">
+            
+            <!-- ACCESS CARD -->
+            <div class="group relative bg-white rounded-2xl shadow-sm border border-slate-200 cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-blue-300 card-container" onclick="toggleActive(this)">
+                <!-- Accent Top Bar -->
+                <div class="absolute top-0 left-0 right-0 h-1 bg-blue-500"></div>
+                
+                <div class="p-6 md:p-8">
+                    <div class="flex items-center gap-4 mb-2">
+                        <div class="p-3 bg-blue-50 text-blue-600 rounded-xl group-hover:scale-110 transition-transform duration-300">
+                            <!-- Book Icon -->
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-slate-800">Access</h2>
+                    </div>
+                    
+                    <div class="expandable-wrapper">
+                        <div class="expandable-inner">
+                            <div class="pt-4 custom-scrollbar max-h-[60vh] overflow-y-auto pr-2">
+                                <ul class="list-disc pl-5 space-y-2 text-slate-600">
+                                    <li>Physical books and print resources</li>
+                                    <li>Requesting Resources (books and articles through OhioLink, ILL)</li>
+                                    <li>Digital books, articles, streaming media, and more through our Database subscriptions.</li>
+                                    <li>Textbook sharing and course reserves (available at the HelpDesk)</li>
+                                    <li>Free printing (up to 600 pages/semester)</li>
+                                    <li>Laptops and other tech equipment</li>
+                                    <li>Board games, bocce</li>
+                                    <li>OhioLink and Interlibrary Loan borrowing</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INHABIT CARD -->
+            <div class="group relative bg-white rounded-2xl shadow-sm border border-slate-200 cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-emerald-300 card-container" onclick="toggleActive(this)">
+                <!-- Accent Top Bar -->
+                <div class="absolute top-0 left-0 right-0 h-1 bg-emerald-500"></div>
+                
+                <div class="p-6 md:p-8">
+                    <div class="flex items-center gap-4 mb-2">
+                        <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl group-hover:scale-110 transition-transform duration-300">
+                            <!-- Building/Space Icon -->
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-slate-800">Inhabit</h2>
+                    </div>
+                    
+                    <div class="expandable-wrapper">
+                        <div class="expandable-inner">
+                            <div class="pt-4 custom-scrollbar max-h-[60vh] overflow-y-auto pr-2">
+                                <ul class="list-disc pl-5 space-y-2 text-slate-600">
+                                    <li>Group study rooms</li>
+                                    <li>Private carrells</li>
+                                    <li>McDonough room (3rd floor, quiet)</li>
+                                    <li>Relaxation Rooms</li>
+                                    <li>Interfaith Prayer Rooms</li>
+                                    <li>Gallery</li>
+                                    <li>Café</li>
+                                    <li>Computer Commons</li>
+                                    <li>Archives and Special Collections</li>
+                                    <li>Curiosity Lab</li>
+                                    <li>One Button Studio</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CREATE CARD -->
+            <div class="group relative bg-white rounded-2xl shadow-sm border border-slate-200 cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-purple-300 card-container" onclick="toggleActive(this)">
+                <!-- Accent Top Bar -->
+                <div class="absolute top-0 left-0 right-0 h-1 bg-purple-500"></div>
+                
+                <div class="p-6 md:p-8">
+                    <div class="flex items-center gap-4 mb-2">
+                        <div class="p-3 bg-purple-50 text-purple-600 rounded-xl group-hover:scale-110 transition-transform duration-300">
+                            <!-- Sparkle/Creation Icon -->
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-slate-800">Create</h2>
+                    </div>
+                    
+                    <div class="expandable-wrapper">
+                        <div class="expandable-inner">
+                            <div class="pt-4 custom-scrollbar max-h-[60vh] overflow-y-auto pr-2">
+                                <ul class="list-disc pl-5 space-y-2 text-slate-600">
+                                    <li>Computer Commons</li>
+                                    <li>Printing (600 pages/semester)- PaperCut Mobility Print software</li>
+                                    <li>Recording Studio</li>
+                                    <li>Digital and Vlog Cameras (Canon, Sony, Nikon)</li>
+                                    <li>Audio Devices and microphones</li>
+                                    <li>Lighting kits</li>
+                                    <li>Tripods</li>
+                                    <li>Presentation gear</li>
+                                    <li>Phone Accessories</li>
+                                    <li>Art Tablets and VR Headsets</li>
+                                    <li>
+                                        <span class="font-medium text-slate-800">Curiosity Lab—Makerspace</span>
+                                        <ul class="list-none pl-4 mt-1 border-l-2 border-purple-200 space-y-1">
+                                            <li class="relative before:content-['-'] before:absolute before:-left-3.5 before:text-slate-400">
+                                                An educational makerspace for the JCU community. It is an open and collaborative work space dedicated to creativity, making, curiosity, and sharing ideas, using high tech to no tech tools.
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>Crafting and Cutting Machines (Cricut)</li>
+                                    <li>Glowforge Aura laser engraver and cutter</li>
+                                    <li>Singer sewing machine</li>
+                                    <li>Stahls heat press</li>
+                                    <li>3D printing</li>
+                                    <li>Arts, crafts, and hobbies</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ELEVATE CARD -->
+            <div class="group relative bg-white rounded-2xl shadow-sm border border-slate-200 cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-orange-300 card-container" onclick="toggleActive(this)">
+                <!-- Accent Top Bar -->
+                <div class="absolute top-0 left-0 right-0 h-1 bg-orange-500"></div>
+                
+                <div class="p-6 md:p-8">
+                    <div class="flex items-center gap-4 mb-2">
+                        <div class="p-3 bg-orange-50 text-orange-600 rounded-xl group-hover:scale-110 transition-transform duration-300">
+                            <!-- Trending Up Icon -->
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-slate-800">Elevate</h2>
+                    </div>
+                    
+                    <div class="expandable-wrapper">
+                        <div class="expandable-inner">
+                            <div class="pt-4 custom-scrollbar max-h-[60vh] overflow-y-auto pr-2">
+                                <ul class="list-disc pl-5 space-y-2 text-slate-600">
+                                    <li>Peer Research Consultants</li>
+                                    <li>Peer Tutors</li>
+                                    <li>Librarians</li>
+                                    <li>Writing and Communication Center (WCC)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // JS functionality to ensure touch devices can easily expand items
+        // by tapping on them, acting as a fallback/enhancement for hover.
+        function toggleActive(element) {
+            // Check if the clicked element is already active
+            const isActive = element.classList.contains('card-active');
+            
+            // Remove 'card-active' from all cards
+            const allCards = document.querySelectorAll('.card-container');
+            allCards.forEach(card => card.classList.remove('card-active'));
+            
+            // If it wasn't active before, make it active now
+            if (!isActive) {
+                element.classList.add('card-active');
+            }
+        }
+
+        // Close expanded cards if clicking outside of them
+        document.addEventListener('click', function(event) {
+            const isClickInsideCard = event.target.closest('.card-container');
+            if (!isClickInsideCard) {
+                const allCards = document.querySelectorAll('.card-container');
+                allCards.forEach(card => card.classList.remove('card-active'));
+            }
+        });
+    </script>
+</body>
+</html>
